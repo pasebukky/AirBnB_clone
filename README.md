@@ -1,10 +1,24 @@
 This directory contains all the solutions to the ALX group project 0x00. AirBnB clone - The console
 
+## Project Description ##
+This project is the first step towards building a full web application: the AirBnB clone. In this project the focus will be placed on the console. The command interpreter should be able to do the following:
 
-## Contributors ##
-Nurudeen Ahmed
-Bukky Pase
+*Create a new object (ex: a new User or a new Place)*
+*Retrieve an object from a file, a database etc…*
+*Do operations on objects (count, compute stats, etc…)*
+*Update attributes of an object*
+*Destroy an object*
 
+
+
+## Authors ##
+Nurudeen Ahmed <0xNuru@gmail.com>
+Bukky Pase <olubukunolapase@gmail.com>
+
+
+
+
+**All the tasks are detailed below as follows:**
 
 ## Task 0 ##
 Write a README.md:
