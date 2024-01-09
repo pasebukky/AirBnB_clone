@@ -11,12 +11,6 @@ This project is the first step towards building a full web application: the AirB
 
 
 
-## Authors ##
-Nurudeen Ahmed <0xNuru@gmail.com>
-Bukky Pase <olubukunolapase@gmail.com>
-
-
-
 
 **All the tasks are detailed below as follows:**
 
