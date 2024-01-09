@@ -324,4 +324,6 @@ with patch('sys.stdout', new=StringIO()) as f:
     HBNBCommand().onecmd("help show")
 Otherwise, you will have to re-write the console by replacing precmd by default.
 
-
+## **Contributors**
+- [Bukky Pase](https://github.com/pasebukky)
+- [Nurudeen Ahmed](https://x.com/0xNuru)
