@@ -3,9 +3,10 @@
 
 import cmd
 from models.base_model import BaseModel
+import models.state import State
 import models.user import User
 
-classes = dict(BaseModel=BaseModel, User=User)
+classes = dict(BaseModel=BaseModel, User=User, State=State)
 
 
 class HBNBCommand(cmd.Cmd):
