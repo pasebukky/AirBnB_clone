@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 """ This file managers the users personal information """
-
 from models.base_model import BaseModel
 
 
