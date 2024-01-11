@@ -20,4 +20,4 @@ class TestUser(unittest.TestCase):
         storage.new(self.user)
         storage.save()
 
-    def 
+    def

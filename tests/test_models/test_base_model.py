@@ -7,11 +7,10 @@ import unittest
 
 class TestInstanceType(unittest.TestCase):
     """Test the instance type"""
-    
+
     def test_isinstance(self):
         b1 = BaseModel()
         self.assertIsInstance(b1, BaseModel)
-
 
 
 if __name__ == "__main__":
