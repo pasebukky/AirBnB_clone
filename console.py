@@ -2,6 +2,7 @@
 """ This program contains the entry point of the command interpreter """
 
 import cmd
+import models
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -93,19 +94,22 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances
         based or not on the class name
         """
-        args = line.split()
-        if len(args) == 0:
-            objs = storage.find.all()
-            print([str(obj) for obj in objs])
-        elif len(args) == 1:
-            class_name = args[0]
-            try:
-                objs = storage.find_all(class_name)
-                print([str(obj) for obj in objs])
-            except ModelNotFoundError:
-                print("** class doesn't exist **")
+        instance_list = []
+        if not line:
+            # Add instance to the list without printing individually
+            instance_list.extend(str(instance) for instance in
+                                 models.storage.all().values())
         else:
-            pass
+            args = line.split()
+            class_name = args[0]
+            if class_name in classes:
+                for key, value in models.storage.all().items():
+                    if value.__class__.__name__ == class_name:
+                        instance_list.append(str(value))
+            else:
+                print("** class doesn't exist **")
+                return False
+        print(instance_list)
 
     def do_update(self, line):
         """
