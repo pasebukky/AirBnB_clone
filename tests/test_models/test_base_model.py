@@ -16,15 +16,16 @@ class TestInstanceType(unittest.TestCase):
         self.assertIsInstance(b1, BaseModel)
         self.assertTrue(issubclass(type(b1), BaseModel))
 
+
 class TestInstanceAttr(unittest.TestCase):
     """Test instance attributes"""
-    
+
     def test_name(self):
         b1 = BaseModel()
         b1.name = "My First Model"
         self.assertTrue(hasattr(b1, "name"))
         self.assertEqual(b1.name, "My First Model")
-    
+
     def test_id(self):
         b1 = BaseModel()
         b2 = BaseModel()
@@ -36,7 +37,7 @@ class TestInstanceAttr(unittest.TestCase):
         Desc: subTest allows us to run multiple tests in one method
         even if one of them fails. Rather than creating different test cases
         for each instance. it takes in uuid=uuid to provide more context if
-        the test fails. e.g 
+        the test fails. e.g
         FAIL: test_uuid (__main__.TestInstanceAttr) (uuid=??notuuidblablabla)
         """
         uuid_list = [BaseModel().id for i in range(2)]
@@ -48,10 +49,10 @@ class TestInstanceAttr(unittest.TestCase):
                                  '^[0-9a-f]{8}-[0-9a-f]{4}'
                                  '-[0-9a-f]{4}-[0-9a-f]{4}'
                                  '-[0-9a-f]{12}$')
-    
+
     def test_uuid_uiniqueness(self):
         uuid_list = [BaseModel().id for i in range(2)]
-        #if len of uuid_list is the same as len of the set of it, all unique
+        # if len of uuid_list is the same as len of the set of it, all unique
         self.assertEqual(len(set(uuid_list)), len(uuid_list))
 
     def test_isntance_in_storage(self):
@@ -72,7 +73,7 @@ class TestInstanceAttr(unittest.TestCase):
         diff = b1.created_at - current_date
         self.assertTrue(abs(diff.total_seconds()) < 0.01)
         self.assertEqual(diff.days, 0)
-    
+
     def test_str_representation(self):
         b1 = BaseModel()
         b1.id = "12345"
@@ -91,7 +92,8 @@ class TestInstanceAttr(unittest.TestCase):
     def test_kwargs(self):
         created_at_iso = datetime.now().isoformat()
         updated_at_iso = datetime.now().isoformat()
-        b1 = BaseModel("12", id="345", created_at=created_at_iso, updated_at=updated_at_iso)
+        b1 = BaseModel("12", id="345", created_at=created_at_iso,
+                       updated_at=updated_at_iso)
         self.assertEqual(b1.id, "345")
         diff = b1.updated_at - b1.created_at
         self.assertTrue(abs(diff.total_seconds()) < 0.01)
@@ -99,6 +101,7 @@ class TestInstanceAttr(unittest.TestCase):
     def test_None_kwargs(self):
         with self.assertRaises(TypeError):
             BaseModel(id=None, created_at=None, updated_at=None)
+
 
 class TestSaveMethod(unittest.TestCase):
     """Test the save method of the BaseModel"""
@@ -145,7 +148,6 @@ class Test_to_dictMethod(unittest.TestCase):
         with self.assertRaises(TypeError):
             b1.to_dict(None)
 
-
     def test_keys_in_dict(self):
         b1 = BaseModel()
         self.assertIn("id", b1.to_dict())
@@ -175,7 +177,6 @@ class Test_to_dictMethod(unittest.TestCase):
         self.assertEqual(str, type(b1_dict["created_at"]))
         self.assertEqual(str, type(b1_dict["updated_at"]))
 
-
     def test_dictionary(self):
         date = datetime.now()
         b1 = BaseModel()
@@ -188,9 +189,6 @@ class Test_to_dictMethod(unittest.TestCase):
             'updated_at': date.isoformat()
         }
         self.assertDictEqual(b1.to_dict(), expected_dict)
-
-
-
 
 
 if __name__ == "__main__":
