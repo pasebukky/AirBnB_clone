@@ -190,6 +190,16 @@ class Test_to_dictMethod(unittest.TestCase):
         }
         self.assertDictEqual(b1.to_dict(), expected_dict)
 
+class TestRecreateInstanceFromDict(unittest.TestCase):
+    """Test re-create an instance with this dictionary representation."""
+
+    def test_base_model_dict(self):
+        my_model = BaseModel()
+        my_model_json = my_model.to_dict()
+        my_new_model = BaseModel(**my_model_json)
+        self.assertIsInstance(my_new_model, BaseModel)
+        self.assertIsNot(my_model, my_new_model)
+
 
 if __name__ == "__main__":
     unittest.main()
