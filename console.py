@@ -3,6 +3,7 @@
 
 import cmd
 import models
+from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -142,6 +143,26 @@ class HBNBCommand(cmd.Cmd):
                     setattr(objs[instance_key], attribute_name,
                             attribute_value)
                     models.storage.save()
+    
+    def default(self, line):
+        """Called on an input line when the command prefix is not recognized"""
+        arg = line.split('.')
+        if arg[0] in classes:
+            if arg[1] == "all()":
+                self.do_all(arg[0])
+            elif arg[1] == "count()":
+                self.do_count(arg[0])
+
+    def do_count(self, args):
+        """Count instances of class"""
+        count = 0
+        all_objs = storage.all()
+        for key in all_objs.keys():
+            key_split = key.split(".")
+            key_cls = key_split[0]
+            if key_cls == args:
+                count = count + 1
+        print(count)
 
 
 if __name__ == '__main__':
