@@ -14,12 +14,22 @@ from models.user import User
 
 classes = dict(BaseModel=BaseModel, User=User, State=State, City=City,
                Amenity=Amenity, Place=Place, Review=Review)
-
+commands = ['create', 'show', 'update', 'all', 'destroy', 'count']
 
 class HBNBCommand(cmd.Cmd):
     """ This class handles commands on the console """
 
     prompt = "(hbnb) "
+
+    def precmd(self, line):
+        """Parse command before passing to other methods"""
+        if '.' in line and '(' in line and ')' in line:
+            cls = line.split(".")[0]
+            cmd = line.split('.')[1].split('(')[0]
+            arg = line.split('(')[1].strip(')"')
+            if cls in classes and cmd in commands:
+                line = cmd + ' ' + cls + ' ' + arg
+        return line
 
     def do_quit(self, line):
         """ Quit command used to exit the program """
@@ -146,12 +156,7 @@ class HBNBCommand(cmd.Cmd):
     
     def default(self, line):
         """Called on an input line when the command prefix is not recognized"""
-        arg = line.split('.')
-        if arg[0] in classes:
-            if arg[1] == "all()":
-                self.do_all(arg[0])
-            elif arg[1] == "count()":
-                self.do_count(arg[0])
+        pass
 
     def do_count(self, args):
         """Count instances of class"""
