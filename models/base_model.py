@@ -13,10 +13,11 @@ class BaseModel():
         """Constructor for every new instance"""
         if kwargs:
             for key, value in kwargs.items():
-                if key != "__class__":
-                    if key == "created_at" or key == "updated_at":
+                if key == "__class__":
+                    continue
+                elif key == "created_at" or key == "updated_at":
                         setattr(self, key, datetime.fromisoformat(value))
-                    else:
+                else:
                         setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
