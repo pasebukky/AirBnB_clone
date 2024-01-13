@@ -3,6 +3,7 @@
 
 import cmd
 import models
+from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -13,12 +14,22 @@ from models.user import User
 
 classes = dict(BaseModel=BaseModel, User=User, State=State, City=City,
                Amenity=Amenity, Place=Place, Review=Review)
-
+commands = ['create', 'show', 'update', 'all', 'destroy', 'count']
 
 class HBNBCommand(cmd.Cmd):
     """ This class handles commands on the console """
 
     prompt = "(hbnb) "
+
+    def precmd(self, line):
+        """Parse command before passing to other methods"""
+        if '.' in line and '(' in line and ')' in line:
+            cls = line.split(".")[0]
+            cmd = line.split('.')[1].split('(')[0]
+            arg = line.split('(')[1].strip(')"')
+            if cls in classes and cmd in commands:
+                line = cmd + ' ' + cls + ' ' + arg
+        return line
 
     def do_quit(self, line):
         """ Quit command used to exit the program """
@@ -142,6 +153,21 @@ class HBNBCommand(cmd.Cmd):
                     setattr(objs[instance_key], attribute_name,
                             attribute_value)
                     models.storage.save()
+    
+    def default(self, line):
+        """Called on an input line when the command prefix is not recognized"""
+        pass
+
+    def do_count(self, args):
+        """Count instances of class"""
+        count = 0
+        all_objs = storage.all()
+        for key in all_objs.keys():
+            key_split = key.split(".")
+            key_cls = key_split[0]
+            if key_cls == args:
+                count = count + 1
+        print(count)
 
 
 if __name__ == '__main__':
