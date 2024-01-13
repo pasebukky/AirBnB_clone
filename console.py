@@ -27,9 +27,12 @@ class HBNBCommand(cmd.Cmd):
         if '.' in line and '(' in line and ')' in line:
             cls = line.split(".")[0]
             cmd = line.split('.')[1].split('(')[0]
-            arg = line.split('(')[1].strip(')"')
+            args_split = line.split('(')[1].split(')')[0]
+            args_list = [arg.strip('"') for arg in args_split.split(',')]
+            args_list = [arg.replace('"', "").strip() for arg in args_list]
             if cls in classes and cmd in commands:
-                line = cmd + ' ' + cls + ' ' + arg
+                line = cmd + ' ' + cls + ' ' + ' '.join(args_list)
+                print(line)
         return line
 
     def do_quit(self, line):
