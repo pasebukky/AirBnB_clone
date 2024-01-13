@@ -3,6 +3,7 @@
 
 import cmd
 import models
+import shlex
 from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -126,42 +127,53 @@ class HBNBCommand(cmd.Cmd):
         print(instance_list)
 
     def do_update(self, line):
+        """Updates an instance based on the class name and id
+        by adding or updating attribute
+         Args:
+            line (line): command line arg
+            usage:  update <class> <id> <attribute_name> <attribute_value>
+                <class>.update(<id>, <attribute_name>, <attribute_value>)
+                <class>.update(<id>, <dictionary>)
         """
-        Updates an instance based on the class name and id by
-        adding or updating attribute (save the change into the JSON file
-        """
-        args = line.split()
-        if not line:
-            print("** class name missing **")
-        elif args[0] not in classes:
-            print("** class doesn't exist **")
-        elif len(args) < 2:
-            print("** instance id missing **")
-        elif len(args) < 3:
-            print("** attribute name missing **")
-        elif len(args) < 4:
-            print("** value missing **")
-        #else:
-            #instance_key = args[0] + '.' + args[1]
-            #if instance_key not in models.storage.all():
-                #print("** no instance found **")
-            #else:
-                #setattr(models.storage.all()[instance_key], args[2], args[3])
-                #models.storage.save()
-        else:
-            new_str = f"{args[0]}.{args[1]}"
-            if new_str not in storage.all().keys():
-                print("** no instance found **")
-            elif len(args) < 3:
-                print("** attribute name missing **")
-                return
-            elif len(args) < 4:
-                print("** value missing **")
-                return
-            else:
-                setattr(storage.all()[new_str], args[2], args[3])
-                storage.save()
 
+        all_objs = storage.all()
+        line_split = shlex.split(line)
+        len_line = len(line_split)
+
+        if len_line < 1:
+            print("** class name missing **")
+            return False
+        else:
+            cls = line_split[0]
+            if (cls not in classes):
+                print("** class doesn't exist **")
+                return False
+            else:
+                try:
+                    cls_id = line_split[1]
+                    key = cls + "." + cls_id
+                    try:
+                        unused = all_objs[key]
+                    except KeyError:
+                        print("** no instance found **")
+                        return False
+                except IndexError:
+                    print('** instance id missing **')
+                    return False
+                if len_line < 3:
+                    print("** attribute name missing **")
+                    return False
+                elif len_line < 4:
+                    print("** value missing **")
+                    return False
+
+        key = cls + "." + cls_id
+        if len_line > 2:
+            if len_line > 3:
+                setattr(storage.all()[key], line_split[2], line_split[3])
+                storage.all()[key].save()
+            else:
+                return
 
     def default(self, line):
         """Called on an input line when the command prefix is not recognized"""
