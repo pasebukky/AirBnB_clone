@@ -19,6 +19,7 @@ class TestPlace(unittest.TestCase):
         self.new_place = Place()
 
     def tearDown(self):
+        """Teardown method to run after tests"""
         pass
 
     def test_place_inheritance(self):
