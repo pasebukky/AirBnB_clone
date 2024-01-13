@@ -77,5 +77,6 @@ class TestFileStorage(unittest.TestCase):
         with self.assertRaises(TypeError) as e:
             FileStorage.save(self, 100)
 
+
 if __name__ == "__main__":
     unittest.main()
