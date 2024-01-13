@@ -190,6 +190,7 @@ class Test_to_dictMethod(unittest.TestCase):
         }
         self.assertDictEqual(b1.to_dict(), expected_dict)
 
+
 class TestRecreateInstanceFromDict(unittest.TestCase):
     """Test re-create an instance with this dictionary representation."""
 
