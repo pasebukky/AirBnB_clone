@@ -75,7 +75,8 @@ class TestFileStorage(unittest.TestCase):
         self.assertCountEqual(dict_obj.keys(), reloaded_keys)
 
         for key in dict_obj.keys():
-            self.assertEqual(dict_obj[key].to_dict(), storage.all()[key].to_dict())
+            self.assertEqual(dict_obj[key].to_dict(),
+                             storage.all()[key].to_dict())
 
     def testSaveSelf(self):
         with self.assertRaises(TypeError) as e:
