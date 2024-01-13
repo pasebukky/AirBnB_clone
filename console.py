@@ -32,7 +32,6 @@ class HBNBCommand(cmd.Cmd):
             args_list = [arg.replace('"', "").strip() for arg in args_list]
             if cls in classes and cmd in commands:
                 line = cmd + ' ' + cls + ' ' + ' '.join(args_list)
-                print(line)
         return line
 
     def do_quit(self, line):
@@ -142,13 +141,27 @@ class HBNBCommand(cmd.Cmd):
             print("** attribute name missing **")
         elif len(args) < 4:
             print("** value missing **")
+        #else:
+            #instance_key = args[0] + '.' + args[1]
+            #if instance_key not in models.storage.all():
+                #print("** no instance found **")
+            #else:
+                #setattr(models.storage.all()[instance_key], args[2], args[3])
+                #models.storage.save()
         else:
-            instance_key = args[0] + '.' + args[1]
-            if instance_key not in models.storage.all():
+            new_str = f"{args[0]}.{args[1]}"
+            if new_str not in storage.all().keys():
                 print("** no instance found **")
+            elif len(args) < 3:
+                print("** attribute name missing **")
+                return
+            elif len(args) < 4:
+                print("** value missing **")
+                return
             else:
-                setattr(models.storage.all()[instance_key], args[2], args[3])
-                models.storage.save()
+                setattr(storage.all()[new_str], args[2], args[3])
+                storage.save()
+
 
     def default(self, line):
         """Called on an input line when the command prefix is not recognized"""
