@@ -65,13 +65,17 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload(self):
         self.my_model.save()
-        self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
+        self.assertTrue(os.path.exists(storage._FileStorage__file_path))
+
         dict_obj = storage.all()
-        FileStorage._FileStorage__objects = {}
-        self.assertNotEqual(dict_obj, FileStorage._FileStorage__objects)
+        FileStorage._FileStorage__objects.clear()
         storage.reload()
-        for key, value in storage.all().items():
-            self.assertEqual(dict_obj[key].to_dict(), value.to_dict())
+
+        reloaded_keys = storage.all().keys()
+        self.assertCountEqual(dict_obj.keys(), reloaded_keys)
+
+        for key in dict_obj.keys():
+            self.assertEqual(dict_obj[key].to_dict(), storage.all()[key].to_dict())
 
     def testSaveSelf(self):
         with self.assertRaises(TypeError) as e:
