@@ -16,6 +16,7 @@ classes = dict(BaseModel=BaseModel, User=User, State=State, City=City,
                Amenity=Amenity, Place=Place, Review=Review)
 commands = ['create', 'show', 'update', 'all', 'destroy', 'count']
 
+
 class HBNBCommand(cmd.Cmd):
     """ This class handles commands on the console """
 
@@ -153,7 +154,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(objs[instance_key], attribute_name,
                             attribute_value)
                     models.storage.save()
-    
+
     def default(self, line):
         """Called on an input line when the command prefix is not recognized"""
         pass
