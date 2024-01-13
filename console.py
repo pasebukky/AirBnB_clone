@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ This program contains the entry point of the command interpreter """
 
+import ast
 import cmd
 import models
 import shlex
@@ -26,6 +27,22 @@ class HBNBCommand(cmd.Cmd):
     def precmd(self, line):
         """Parse command before passing to other methods"""
         if '.' in line and '(' in line and ')' in line:
+            if '{' in line and '}' in line:
+                parts = line.split("(")
+                instance_id = parts[1].split(",")[0].strip('"')
+                cls = parts[0].split(".")[0]
+                if len(parts) == 2:
+                    try:
+                        dictionary = ast.literal_eval(parts[1].strip(")"))[-1]
+                    except SyntaxError:
+                        pass
+                    if isinstance(dictionary, dict):
+                        for key, value in dictionary.items():
+                            line = f"{cls} {instance_id} {key} {value}"
+                            self.do_update(line)
+                        return line
+
+
             cls = line.split(".")[0]
             cmd = line.split('.')[1].split('(')[0]
             args_split = line.split('(')[1].split(')')[0]
@@ -129,13 +146,12 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, line):
         """Updates an instance based on the class name and id
         by adding or updating attribute
-         Args:
+        Args:
             line (line): command line arg
-            usage:  update <class> <id> <attribute_name> <attribute_value>
+        Usage:  update <class> <id> <attribute_name> <attribute_value>
                 <class>.update(<id>, <attribute_name>, <attribute_value>)
                 <class>.update(<id>, <dictionary>)
         """
-
         all_objs = storage.all()
         line_split = shlex.split(line)
         len_line = len(line_split)
