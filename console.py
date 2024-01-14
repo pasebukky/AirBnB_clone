@@ -42,7 +42,6 @@ class HBNBCommand(cmd.Cmd):
                             self.do_update(line)
                         return line
 
-
             cls = line.split(".")[0]
             cmd = line.split('.')[1].split('(')[0]
             args_split = line.split('(')[1].split(')')[0]
