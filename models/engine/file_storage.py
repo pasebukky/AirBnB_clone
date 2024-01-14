@@ -21,10 +21,6 @@ class FileStorage():
     __file_path = "file.json"
     __objects = {}
 
-    def __init__(self):
-        """The constructor"""
-        pass
-
     def all(self):
         """return the __objects dict"""
         return self.__class__.__objects
