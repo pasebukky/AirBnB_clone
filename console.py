@@ -150,7 +150,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** value missing **")
                 else:
                     attribute_name = args[2]
-                    attribute_valus = args[3]
+                    attribute_value = args[3]
                     setattr(objs[instance_key], attribute_name,
                             attribute_value)
                     models.storage.save()
