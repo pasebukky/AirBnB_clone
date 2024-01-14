@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
             if class_name not in classes:
                 print("** class doesn't exist **")
             else:
-                instance_key = BaseModel()
+                instance_key = classes[class_name]()
                 instance_key.save()
                 print(instance_key.id)
 
