@@ -150,9 +150,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** value missing **")
                 else:
                     attribute_name = args[2]
-                    attribute_value = ' '.join(args[3:])
-                    if attribute_value.startswith('"') and attribute_value.endswith('"'):
-                        attribute_value = attribute_value[1:-1]
+                    attribute_valus = args[3]
                     setattr(objs[instance_key], attribute_name,
                             attribute_value)
                     models.storage.save()
