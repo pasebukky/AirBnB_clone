@@ -128,32 +128,24 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the class name and id by
         adding or updating attribute (save the change into the JSON file
         """
+        args = line.split()
         if not line:
             print("** class name missing **")
+        elif args[0] not in classes:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        elif len(args) < 3:
+            print("** attribute name missing **")
+        elif len(args) < 4:
+            print("** value missing **")
         else:
-            args = line.split()
-            class_name = args[0]
-            if class_name not in classes:
-                print("** class doesn't exist **")
-            elif len(args) < 2:
-                print("** instance id missing **")
+            instance_key = args[0] + '.' + args[1]
+            if instance_key not in models.storage.all():
+                print("** no instance found **")
             else:
-                instance_id = args[1]
-                instance_key = "{}.{}".format(class_name, instance_id)
-                objs = models.storage.all()
-                if len(args) == 2:
-                    if instance_key not in objs:
-                        print("** no instance found **")
-                    else:
-                        print("** attribute name missing **")
-                elif len(args) < 4:
-                    print("** value missing **")
-                else:
-                    attribute_name = args[2]
-                    attribute_value = args[3]
-                    setattr(objs[instance_key], attribute_name,
-                            attribute_value)
-                    models.storage.save()
+                setattr(models.storage.all()[instance_key], args[2], args[3])
+                models.storage.save()
 
     def default(self, line):
         """Called on an input line when the command prefix is not recognized"""
