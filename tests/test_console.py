@@ -118,6 +118,7 @@ class TestConsole(unittest.TestCase):
             self.assertFalse(self.console.onecmd(""))
             self.assertEqual("", output.getvalue().strip())
 
+
 class TestHelpCommand(unittest.TestCase):
     """Unittests for testing help messages of the interpreter."""
 
@@ -126,6 +127,7 @@ class TestHelpCommand(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help quit"))
             self.assertEqual(h, output.getvalue().strip())
+
 
 class TestExitCommand(unittest.TestCase):
     """Unittests for testing exiting from the interpreter"""
@@ -137,6 +139,7 @@ class TestExitCommand(unittest.TestCase):
     def test_EOF_exits(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
+
 
 class TestHBNBCommand_create(unittest.TestCase):
     """Unittests for testing create from the interpreter"""
@@ -208,6 +211,7 @@ class TestHBNBCommand_create(unittest.TestCase):
             self.assertLess(0, len(output.getvalue().strip()))
             testKey = "Review.{}".format(output.getvalue().strip())
             self.assertIn(testKey, storage.all().keys())
+
 
 if __name__ == '__main__':
     unittest.main()
